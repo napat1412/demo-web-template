@@ -26,7 +26,7 @@ _Below is an example of how you can instruct your audience on installing and set
    ```
 3. Build container with Docker
    ```sh
-   docker build -t demp-web-template:v1.0 .
+   docker build -t demo-web-template:v1.0 .
    ```
 4. Swtich branch to v2.0
    ```sh
@@ -36,5 +36,5 @@ _Below is an example of how you can instruct your audience on installing and set
    ```
 5. Build container with Docker
    ```sh
-   docker build -t demp-web-template:v2.0 .
+   docker build -t demo-web-template:v2.0 .
    ```
