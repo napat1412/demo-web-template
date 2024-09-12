@@ -17,4 +17,4 @@ jobs:
         run: echo '${{ inputs.environment }}'
       - name: 'Use secret from env'
         shell: bash
-        run: echo 'user from env = ${{ secrets.MECA_USERNAME}}'
+        run: echo '${{ vars.REPOSITORY }} user in from env = ${{ secrets.MECA_USERNAME}}'
