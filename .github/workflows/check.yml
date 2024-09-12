@@ -1,0 +1,20 @@
+name: 'Check ENV'
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: environment
+        description: 'Choose your environment'
+jobs:
+  manual_job:
+    name: 'My Manual Job'
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.environment }}
+    steps:
+      - name: 'Print env name'
+        shell: bash
+        run: echo '${{ inputs.environment }}'
+      - name: 'Use secret from env'
+        shell: bash
+        run: echo 'user from env = ${{ secrets.MECA_USERNAME}}'
