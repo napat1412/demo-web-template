@@ -52,7 +52,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            hub-dev.meca.in.th/napat/demo-web:v1
+            hub-dev.meca.in.th/napat/demo-web
           tags: |
             type=schedule
             type=ref,event=branch
