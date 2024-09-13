@@ -1,7 +1,12 @@
 name: Build & Push to Hub-Dev MECAs
 on:
-  push:
-    branches: [ master ]
+  # push:
+  #   branches: [ master ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: environment
+        description: 'Choose your environment'
 jobs:
   build:
     name: Build Image
