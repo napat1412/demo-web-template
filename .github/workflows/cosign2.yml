@@ -81,14 +81,14 @@ jobs:
       - name: Sign image with a key
         run: |
           images=""
-          for tag in ${TAGS}; do
+          for tag in ${DOCKER_METADATA_OUTPUT_TAGS}; do
             echo "${tag}@${DIGEST}"
             images+="${tag}@${DIGEST} "
           done
           cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${images}
         env:
           # TAGS: ${{ steps.docker_meta.outputs.tags }}
-          tags: ${{ steps.meta.outputs.tags }}
+          # TAGS: ${{ steps.meta.outputs.tags }}
           COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
 
