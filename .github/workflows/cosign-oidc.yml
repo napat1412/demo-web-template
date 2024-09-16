@@ -1,4 +1,4 @@
-name: co-sign2
+name: co-sign-with-Github-OIDC
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -44,12 +44,6 @@ jobs:
           registry: hub-dev.meca.in.th
           username: ${{ secrets.MECA_USERNAME }}
           password: ${{ secrets.MECA_PASSWORD }}
-
-      # - id: docker_meta
-      #   uses: docker/metadata-action@v4.4.0
-      #   with:
-      #     images: ghcr.io/sigstore/sample-honk
-      #     tags: type=sha,format=long
       
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
@@ -78,27 +72,15 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Sign image with a key
+      # Sign the images with GitHub OIDC Token
+      - name: Sign the images with GitHub OIDC Token
+        env:
+          DIGEST: ${{ steps.build-and-push.outputs.digest }}
+          TAGS: ${{ steps.meta.outputs.tags }}
         run: |
           images=""
-          for tag in ${DOCKER_METADATA_OUTPUT_TAGS}; do
+          for tag in ${TAGS}; do
             echo "${tag}@${DIGEST}"
             images+="${tag}@${DIGEST} "
           done
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${images}
-        env:
-          # TAGS: ${{ steps.docker_meta.outputs.tags }}
-          # TAGS: ${{ steps.meta.outputs.tags }}
-          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
-          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-
-      # - name: Sign the images with GitHub OIDC Token
-      #   env:
-      #     DIGEST: ${{ steps.build-and-push.outputs.digest }}
-      #     TAGS: ${{ steps.docker_meta.outputs.tags }}
-      #   run: |
-      #     images=""
-      #     for tag in ${TAGS}; do
-      #       images+="${tag}@${DIGEST} "
-      #     done
-      #     cosign sign --yes ${images}
+          cosign sign --yes ${images}
